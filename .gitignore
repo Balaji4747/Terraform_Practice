@@ -1,0 +1,29 @@
+# === Terraform ===
+# Local .terraform directories
+.terraform/
+
+# Dependency lock file
+.terraform.lock.hcl
+
+# State files (contain secrets, never commit!)
+*.tfstate
+*.tfstate.backup
+
+# Crash logs
+crash.log
+
+# Sensitive variable files
+*.tfvars
+*.tfvars.json
+
+# Local override files (used only for testing/debugging)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# === SSH Keys / Private Keys ===
+terra-key-ec2
+*.pem
+*.key
+*.pub
