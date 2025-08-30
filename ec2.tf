@@ -55,13 +55,14 @@ resource "aws_security_group" "my_security_group" {
 # Ec2 Instance
 resource "aws_instance" "my_instance" {
   key_name        = aws_key_pair.my_key.key_name
-  security_groups = [aws_security_group.my_security_group.name] # reference the security group created above interpolation
-  instance_type   = "t2.micro"
-  ami             = "ami-0360c520857e3138f" # Amazon Linux 2 AMI (HVM), SSD Volume Type - us-east-1 ubuntu
+  vpc_security_group_ids = [aws_security_group.my_security_group.id] # reference the security group created above interpolation
+  instance_type   = var.ec2_instance_type
+  ami             = var.ec2_ami_id # Amazon Linux 2 AMI (HVM), SSD Volume Type - us-east-1 ubuntu
+  user_data = file("install_nginx.sh")
 
   root_block_device {
 
-    volume_size = 15
+    volume_size = var.ec2_root_storage_size
     volume_type = "gp3"
   }
   tags = {
