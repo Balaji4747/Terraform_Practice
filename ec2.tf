@@ -54,9 +54,13 @@ resource "aws_security_group" "my_security_group" {
 
 # Ec2 Instance
 resource "aws_instance" "my_instance" {
+  for_each = tomap({
+    TWS-junoon-automate-1 = "t2.micro"
+    TWS-junoon-automate-2 = "t2.micro"
+  })
   key_name        = aws_key_pair.my_key.key_name
   vpc_security_group_ids = [aws_security_group.my_security_group.id] # reference the security group created above interpolation
-  instance_type   = var.ec2_instance_type
+  instance_type   = each.value
   ami             = var.ec2_ami_id # Amazon Linux 2 AMI (HVM), SSD Volume Type - us-east-1 ubuntu
   user_data = file("install_nginx.sh")
 
@@ -66,6 +70,6 @@ resource "aws_instance" "my_instance" {
     volume_type = "gp3"
   }
   tags = {
-    Name = "TWS -Junoon-automate"
+    Name = each.key
   }
 }
