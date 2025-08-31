@@ -57,6 +57,7 @@ resource "aws_instance" "my_instance" {
   for_each = tomap({
     TWS-junoon-automate-1 = "t2.micro"
     TWS-junoon-automate-2 = "t2.micro"
+    TWS-junoon-automate-3 = "t2.micro"
   })
 
   # meta arguments
