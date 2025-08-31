@@ -58,6 +58,9 @@ resource "aws_instance" "my_instance" {
     TWS-junoon-automate-1 = "t2.micro"
     TWS-junoon-automate-2 = "t2.micro"
   })
+
+  # meta arguments
+  depends_on = [ aws_security_group.my_security_group, aws_key_pair.my_key ]
   key_name        = aws_key_pair.my_key.key_name
   vpc_security_group_ids = [aws_security_group.my_security_group.id] # reference the security group created above interpolation
   instance_type   = each.value
@@ -66,7 +69,7 @@ resource "aws_instance" "my_instance" {
 
   root_block_device {
 
-    volume_size = var.ec2_root_storage_size
+    volume_size = var.env == "prd" ? 20 : var.ec2_default_root_storage_size
     volume_type = "gp3"
   }
   tags = {
